@@ -162,11 +162,14 @@ Form::macro('i18nSelect', function ($name, $title, ViewErrorBag $errors, $lang, 
     /* Bootstrap default class */
     $array_option = ['class' => 'form-control'];
 
-    if (array_key_exists('class', $options)) {
+    // Here we will additionally check if class in options is not empty
+    if (array_key_exists('class', $options) && !empty($options['class'])) {
         $array_option = ['class' => $array_option['class'] . ' ' . $options['class']];
         unset($options['class']);
     }
 
+    // Now we can pass empty class and form-control will be not applied
+    // TODO: make merging smarter
     $options = array_merge($array_option, $options);
 
     $string .= Form::select($nameForm, $choice, old($nameForm, $currentData), $options);
@@ -182,7 +185,7 @@ Form::macro('i18nFile', function ($name, $title, ViewErrorBag $errors, $lang, $o
     } else {
         $nameForm = "{$lang}[$name]";
     }
-    
+
     $options = array_merge(['class' => 'form-control'], $options);
 
     $string = "<div class='form-group " . ($errors->has($lang . '.' . $name) ? ' has-error' : '') . "'>";
@@ -195,7 +198,7 @@ Form::macro('i18nFile', function ($name, $title, ViewErrorBag $errors, $lang, $o
     }
 
     $string .= Form::file("{$lang}[{$name}]",$options);
-     
+
     $string .= $errors->first("{$lang}.{$name}", '<span class="help-block">:message</span>');
     $string .= '</div>';
 
