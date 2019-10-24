@@ -361,7 +361,7 @@ Form::macro('normalSelect', function ($name, $title, ViewErrorBag $errors, array
     /* Bootstrap default class */
     $array_option = ['class' => 'form-control'];
 
-    if (array_key_exists('class', $options)) {
+    if (array_key_exists('class', $options) && !empty($options['class'])) {
         $array_option = ['class' => $array_option['class'] . ' ' . $options['class']];
         unset($options['class']);
     }
